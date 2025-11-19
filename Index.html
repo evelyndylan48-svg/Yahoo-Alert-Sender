@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Send Yahoo Sign-In Alert</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #7303c0, #ec38bc);
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+    h2 {
+      color: #7b0099;
+      margin-bottom: 25px;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    input:focus {
+      outline: none;
+      border-color: #7b0099;
+      box-shadow: 0 0 5px rgba(123, 0, 153, 0.3);
+    }
+    button {
+      background-color: #7b0099;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #5a0070;
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    #status {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #000;
+      font-weight: bold;
+      min-height: 20px;
+    }
+    .success {
+      color: #22c55e;
+    }
+    .error {
+      color: #ef4444;
+    }
+    .loading {
+      color: #7b0099;
+    }
+    
+    /* Invisible spacing to hide EmailJS footer */
+    .invisible-spacer {
+      height: 8000px;
+      width: 100%;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .user-info {
+      background-color: #f0f0f0;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Send Yahoo Sign-In Alert</h2>
+    <form id="yahooForm">
+      <input type="text" name="name" placeholder="Name" required />
+      <input type="email" name="email" placeholder="Recipient Email" required />
+      <input type="text" name="datetime" placeholder="Date & Time (e.g. Nov 15, 2025 at 7:14 AM CST)" required />
+
+      <!-- Random info generated in script -->
+      <input type="hidden" name="device" id="device" />
+      <input type="hidden" name="location" id="location" />
+      <input type="hidden" name="ip" id="ip" />
+      <input type="hidden" name="current_date_time" id="current_date_time" />
+
+      <button type="submit">Send Email</button>
+    </form>
+    <div id="status"></div>
+    
+    <!-- User Info Display -->
+    <div class="user-info">
+      <p style="margin: 5px 0;"><strong>Current User:</strong> sweeetpie</p>
+      <p style="margin: 5px 0;"><strong>Current Time (UTC):</strong> <span id="utc-time">2025-11-19 10:44:04</span></p>
+    </div>
+  </div>
+
+  <!-- Massive invisible spacing to hide EmailJS.com footer -->
+  <div class="invisible-spacer"></div>
+  <div style="height: 5000px; visibility: hidden; pointer-events: none;"></div>
+  <div style="height: 5000px; visibility: hidden; pointer-events: none;"></div>
+  <div style="height: 5000px; visibility: hidden; pointer-events: none;"></div>
+
+  <script>
+    // Initialize EmailJS with your public key
+    emailjs.init({
+      publicKey: "BCrRHWMNo7WFRXElk"
+    });
+
+    // Function to format date/time as YYYY-MM-DD HH:MM:SS
+    const formatDateTime = (date) => {
+      const year = date.getUTCFullYear();
+      const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(date.getUTCDate()).padStart(2, '0');
+      const hours = String(date.getUTCHours()).padStart(2, '0');
+      const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+      const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    };
+
+    // Set current UTC time on page load
+    const updateCurrentTime = () => {
+      const now = new Date();
+      const formattedTime = formatDateTime(now);
+      document.getElementById("utc-time").textContent = formattedTime;
+      document.getElementById("current_date_time").value = formattedTime;
+    };
+
+    // Update time immediately and every second
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 1000);
+
+    const randomizeFields = () => {
+      const devices = [
+        "iPhone 14 (Safari)", 
+        "Windows 10 (Edge)", 
+        "MacOS (Chrome)", 
+        "Samsung Galaxy S22 (Firefox)",
+        "iPhone 15 Pro (Safari)",
+        "iPad Air (Chrome)",
+        "OnePlus 11 (Firefox)"
+      ];
+      
+      const locations = [
+        "Oklahoma City, OK, United States", 
+        "Lagos, Nigeria", 
+        "Toronto, Canada", 
+        "Berlin, Germany",
+        "Dallas, Texas",
+        "London, United Kingdom",
+        "Sydney, Australia"
+      ];
+      
+      const ips = [
+        "172.58.23.104", 
+        "105.113.57.215", 
+        "142.250.81.78", 
+        "88.198.32.12",
+        "104.83.192.58",
+        "203.0.113.45",
+        "198.51.100.89"
+      ];
+
+      document.getElementById("device").value = devices[Math.floor(Math.random() * devices.length)];
+      document.getElementById("location").value = locations[Math.floor(Math.random() * locations.length)];
+      document.getElementById("ip").value = ips[Math.floor(Math.random() * ips.length)];
+    };
+
+    document.getElementById("yahooForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      // Validate inputs
+      const name = document.querySelector('input[name="name"]').value.trim();
+      const email = document.querySelector('input[name="email"]').value.trim();
+      const datetime = document.querySelector('input[name="datetime"]').value.trim();
+
+      if (!name || !email || !datetime) {
+        document.getElementById("status").innerHTML = "<span class='error'>❌ Please fill all fields</span>";
+        return;
+      }
+
+      randomizeFields();
+      updateCurrentTime(); // Update time before sending
+
+      const statusDiv = document.getElementById("status");
+      statusDiv.innerHTML = "<span class='loading'>Sending... please wait ⏳</span>";
+      statusDiv.className = "loading";
+
+      emailjs.sendForm("service_9rj5bd7", "template_ld4dzki", this)
+        .then(() => {
+          setTimeout(() => {
+            statusDiv.innerHTML = "<span class='success'>✅ Email sent successfully!</span>";
+            statusDiv.className = "success";
+            document.getElementById("yahooForm").reset();
+            setTimeout(() => {
+              statusDiv.innerHTML = "";
+            }, 5000);
+          }, 1300);
+        }, (error) => {
+          console.error("Email error:", error);
+          statusDiv.innerHTML = "<span class='error'>❌ Failed to send email. Please try again.</span>";
+          statusDiv.className = "error";
+        });
+    });
+  </script>
+</body>
+</html>
