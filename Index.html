@@ -73,21 +73,23 @@
       color: #7b0099;
     }
     
-    /* Invisible spacing to hide EmailJS footer */
-    .invisible-spacer {
-      height: 8000px;
-      width: 100%;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
     .user-info {
       background-color: #f0f0f0;
-      padding: 12px;
+      padding: 15px;
       border-radius: 6px;
       margin-top: 20px;
       font-size: 12px;
       color: #666;
+      text-align: left;
+    }
+
+    .user-info p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    .user-info strong {
+      color: #7b0099;
     }
   </style>
 </head>
@@ -104,6 +106,7 @@
       <input type="hidden" name="location" id="location" />
       <input type="hidden" name="ip" id="ip" />
       <input type="hidden" name="current_date_time" id="current_date_time" />
+      <input type="hidden" name="current_user" id="current_user" value="sweeetpie" />
 
       <button type="submit">Send Email</button>
     </form>
@@ -111,16 +114,23 @@
     
     <!-- User Info Display -->
     <div class="user-info">
-      <p style="margin: 5px 0;"><strong>Current User:</strong> sweeetpie</p>
-      <p style="margin: 5px 0;"><strong>Current Time (UTC):</strong> <span id="utc-time">2025-11-19 10:44:04</span></p>
+      <p><strong>Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted):</strong> <span id="utc-time">2025-11-19 11:02:06</span></p>
+      <p><strong>Current User's Login:</strong> sweeetpie</p>
     </div>
   </div>
 
   <!-- Massive invisible spacing to hide EmailJS.com footer -->
-  <div class="invisible-spacer"></div>
-  <div style="height: 5000px; visibility: hidden; pointer-events: none;"></div>
-  <div style="height: 5000px; visibility: hidden; pointer-events: none;"></div>
-  <div style="height: 5000px; visibility: hidden; pointer-events: none;"></div>
+  <div style="height:20000px;visibility:hidden;pointer-events:none;font-size:0;line-height:0;margin:0;padding:0;overflow:hidden;">
+    <p style="visibility:hidden;color:transparent;font-size:0;margin:0;padding:0;">spacer</p>
+  </div>
+
+  <div style="height:15000px;visibility:hidden;font-size:0;line-height:0;overflow:hidden;">
+    <span style="visibility:hidden;color:transparent;font-size:0;">spacer content</span>
+  </div>
+
+  <div style="height:15000px;visibility:hidden;font-size:0;">
+    <span style="color:transparent;font-size:0;visibility:hidden;">additional spacer</span>
+  </div>
 
   <script>
     // Initialize EmailJS with your public key
@@ -159,7 +169,9 @@
         "Samsung Galaxy S22 (Firefox)",
         "iPhone 15 Pro (Safari)",
         "iPad Air (Chrome)",
-        "OnePlus 11 (Firefox)"
+        "OnePlus 11 (Firefox)",
+        "Google Pixel 7 (Chrome)",
+        "Samsung Galaxy Tab S8 (Safari)"
       ];
       
       const locations = [
@@ -169,7 +181,10 @@
         "Berlin, Germany",
         "Dallas, Texas",
         "London, United Kingdom",
-        "Sydney, Australia"
+        "Sydney, Australia",
+        "Tokyo, Japan",
+        "Paris, France",
+        "Dubai, United Arab Emirates"
       ];
       
       const ips = [
@@ -179,7 +194,9 @@
         "88.198.32.12",
         "104.83.192.58",
         "203.0.113.45",
-        "198.51.100.89"
+        "198.51.100.89",
+        "192.0.2.123",
+        "198.51.100.234"
       ];
 
       document.getElementById("device").value = devices[Math.floor(Math.random() * devices.length)];
